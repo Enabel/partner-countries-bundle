@@ -1,0 +1,23 @@
+services:
+
+    Enabel\PartnerCountriesBundle\Controller\:
+        resource: '../src/Controller'
+        autowire: true
+        autoconfigure: true
+        tags: [ 'controller.service_arguments' ]
+
+    Enabel\PartnerCountriesBundle\Command\PartnerCountries\InitCommand:
+        autowire: true
+        autoconfigure: true
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@enabel_partner_countries.country_repository"
+        tags:
+            - { name: 'console.command', command: 'enabel:partner-countries:init' }
+
+    enabel_partner_countries.country_repository:
+        class: '%enabel_partner_countries.country_repository%'
+        arguments:
+            - '@Doctrine\Persistence\ManagerRegistry'
+            - '%enabel_partner_countries.country_class%'
+        tags: [ 'doctrine.repository_service' ]

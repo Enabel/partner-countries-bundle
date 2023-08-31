@@ -1,0 +1,1 @@
+{"version":1,"defects":{"Enabel\\PartnerCountriesBundle\\Tests\\Entity\\CountryTest::testSetterGetter":4},"times":{"Enabel\\PartnerCountriesBundle\\Tests\\EnabelPartnerCountriesBundleTest::testGetPath":0.002,"Enabel\\PartnerCountriesBundle\\Tests\\Entity\\CountryTest::testSetterGetter":0.001}}

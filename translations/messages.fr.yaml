@@ -1,0 +1,16 @@
+enabel_partner_countries:
+    admin:
+        title:
+            country:
+                edit: 'Modifier le pays'
+                new: 'Ajouter un pays'
+                detail: 'Afficher le pays'
+        menu:
+            country: Pays
+            countries: Pays
+        form:
+            id: '#'
+            country: Pays
+            alpha2code: 'Code alpha-2'
+            alpha3code: 'Code alpha-3'
+            isPartner: "Pays partenaire ?"

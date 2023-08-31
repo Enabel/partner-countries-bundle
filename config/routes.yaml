@@ -1,0 +1,3 @@
+enabel_partner_countries:
+  resource: "../src/Controller/"
+  type: attribute

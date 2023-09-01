@@ -23,4 +23,5 @@ nav:
   - Installation: 'index.md'
   - Command: 'command.md'
   - EasyAdmin: 'easyadmin.md'
+  - Twig: 'twig.md'
   - 'Bug tracker': 'https://github.com/Enabel/partner-countries-bundle/issues'

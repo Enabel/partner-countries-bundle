@@ -50,6 +50,14 @@ class InitCommand extends Command
         $stopwatch = new Stopwatch();
         $stopwatch->start('partner-countries-init-command');
 
+        // Check if the partner countries table is empty
+        if ($this->countryRepository->count([]) > 0) {
+            $this->io->warning('The partner countries table is not empty. No data has been loaded.');
+            $this->io->info('To update data, use the enabel:partner-countries:update command.');
+
+            return Command::SUCCESS;
+        }
+
         // Retrieve country class
         $countryClass = $this->countryRepository->getClassName();
 

@@ -175,3 +175,7 @@ To manage partner countries in your Easyadmin dashboard follow [these instructio
 ### Command
 
 This bundle come with a bunch of commands, [here](command.md) is the documentation
+
+### Twig
+
+This bundle come with a bunch of twig filters, [here](twig.md) is the documentation

@@ -15,9 +15,21 @@ services:
         tags:
             - { name: 'console.command', command: 'enabel:partner-countries:init' }
 
+    Enabel\PartnerCountriesBundle\Command\PartnerCountries\UpdateCommand:
+        autowire: true
+        autoconfigure: true
+        arguments:
+            - "@doctrine.orm.entity_manager"
+            - "@enabel_partner_countries.country_repository"
+        tags:
+            - { name: 'console.command', command: 'enabel:partner-countries:update' }
+
     enabel_partner_countries.country_repository:
         class: '%enabel_partner_countries.country_repository%'
         arguments:
             - '@Doctrine\Persistence\ManagerRegistry'
             - '%enabel_partner_countries.country_class%'
         tags: [ 'doctrine.repository_service' ]
+
+    Enabel\PartnerCountriesBundle\Twig\Extension\CountryExtension:
+        tags: [ 'twig.extension' ]

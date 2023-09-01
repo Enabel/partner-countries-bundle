@@ -16,10 +16,10 @@ use Symfony\Component\Intl\Countries;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 #[AsCommand(
-    name: 'enabel:partner-countries:init',
-    description: 'Loads the base data for the partner countries table',
+    name: 'enabel:partner-countries:update',
+    description: 'Update the data of the partner countries table',
 )]
-class InitCommand extends Command
+class UpdateCommand extends Command
 {
     private SymfonyStyle $io;
 
@@ -48,15 +48,18 @@ class InitCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $stopwatch = new Stopwatch();
-        $stopwatch->start('partner-countries-init-command');
+        $stopwatch->start('partner-countries-update-command');
 
         // Check if the partner countries table is empty
-        if ($this->countryRepository->count([]) > 0) {
-            $this->io->warning('The partner countries table is not empty. No data has been loaded.');
-            $this->io->info('To update data, use the enabel:partner-countries:update command.');
+        if ($this->countryRepository->count([]) === 0) {
+            $this->io->warning('The partner countries table is empty. No data has been updated.');
+            $this->io->info('To init data, use the enabel:partner-countries:init command.');
 
             return Command::SUCCESS;
         }
+
+        // Retrieve data from the database
+        $countries = $this->countryRepository->getCountryCodes();
 
         // Retrieve country class
         $countryClass = $this->countryRepository->getClassName();
@@ -66,9 +69,16 @@ class InitCommand extends Command
 
         // Create partner countries
         foreach ($countryCodes as $countryCode) {
-            /** @var Country $country */
-            $country = new $countryClass();
+            if (in_array($countryCode, array_keys($countries))) {
+                /** @var Country $country */
+                $country = $countries[$countryCode];
+            } else {
+                /** @var Country $country */
+                $country = new $countryClass();
+            }
+
             $country->setAlpha2code($countryCode);
+            $country->setIsPartner(false);
             if (in_array($countryCode, Country::PARTNER_COUNTRIES)) {
                 $country->setIsPartner(true);
             }
@@ -78,9 +88,9 @@ class InitCommand extends Command
 
         $this->entityManager->flush();
 
-        $this->io->success('Base data for the partner countries table has been loaded successfully.');
+        $this->io->success('Data for the partner countries table has been updated successfully.');
 
-        $event = $stopwatch->stop('partner-countries-init-command');
+        $event = $stopwatch->stop('partner-countries-update-command');
         if ($output->isVerbose()) {
             $this->io->comment(
                 sprintf(
@@ -102,16 +112,16 @@ class InitCommand extends Command
     private function getCommandHelp(): string
     {
         return <<<'HELP'
-The <info>%command.name%</info> command loads the base data for the partner countries table:
+The <info>%command.name%</info> command update the data of the partner countries table:
 
   <info>php %command.full_name%</info>
 
-This command fetches country data from the Intl\Country component and inserts it into the partner countries table. 
+This command fetches country data from the Intl\Country component and update it into the partner countries table. 
 It ensures that your application has a consistent, up-to-date list of countries based on international standards.
 
 <comment>Examples:</comment>
   <info>php %command.full_name%</info> 
-    This example loads all the countries into the partner countries table.
+    This example update the countries into the partner countries table.
 
 Note: Ensure your database connection is correctly configured before running this command 
 and also make sure the bundle is appropriately configured.

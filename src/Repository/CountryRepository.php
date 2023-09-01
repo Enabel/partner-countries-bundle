@@ -26,4 +26,19 @@ class CountryRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    /**
+     * @return array<string, Country>
+     */
+    public function getCountryCodes(): array
+    {
+        $countries = [];
+
+        foreach ($this->findAll() as $country) {
+            /** @var Country $country */
+            $countries[$country->getAlpha2code()] = $country;
+        }
+
+        return $countries;
+    }
 }

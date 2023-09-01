@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.1](https://github.com/enabel/partner-countries-bundle/tree/1.0.1) (2023-09-01)
+
+[Full Changelog](https://github.com/enabel/partner-countries-bundle/compare/1.0.0...1.0.1)
+
+**Closed issues:**
+
+- Update partner countries [\#1](https://github.com/Enabel/partner-countries-bundle/issues/1)
+
+**Merged pull requests:**
+
+- :white\_check\_mark: Test if table is empty before init [\#2](https://github.com/Enabel/partner-countries-bundle/pull/2) ([damienlagae](https://github.com/damienlagae))
+
 ## [1.0.0](https://github.com/enabel/partner-countries-bundle/tree/1.0.0) (2023-09-01)
 
 [Full Changelog](https://github.com/enabel/partner-countries-bundle/compare/0.0.2...1.0.0)

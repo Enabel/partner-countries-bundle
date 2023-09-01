@@ -89,7 +89,7 @@ enabel_partner_countries:
 
 Create a entity and repository that extends the bundle one.
 
-The Country entity `/src/entity/Enabel/Country.php`
+The Country entity `/src/Entity/Enabel/Country.php`
 ```php
 <?php
 

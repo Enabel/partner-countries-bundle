@@ -52,7 +52,7 @@ class CountryExtension extends AbstractExtension
         }
 
         if (is_string($country)) {
-            if (strlen($country) !== 2 and strlen($country) !== 3) {
+            if (strlen($country) !== 2 && strlen($country) !== 3) {
                 throw new \InvalidArgumentException('The country code must be the alpha2code or the alpha3code.');
             }
 

@@ -16,7 +16,7 @@ class Country
 {
     public const PARTNER_COUNTRIES = [
         'BE', 'BF', 'BI', 'BJ', 'CD', 'CF', 'CI', 'GN',
-        'JO', 'MA', 'ML', 'MR', 'MZ', 'NE', 'PS', 'RW', 'SN', 'TZ', 'UG'
+        'JO', 'MA', 'ML', 'MR', 'MZ', 'NE', 'PS', 'RW', 'SN', 'TZ', 'UG',
     ];
 
     #[ORM\Id]

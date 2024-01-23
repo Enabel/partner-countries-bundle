@@ -1,6 +1,7 @@
 # Enabel: Partner Countries Bundle
 
 [![License](https://img.shields.io/badge/license-MIT-red.svg?style=flat-square)](LICENSE)
+[![SymfonyInsight](https://insight.symfony.com/projects/d57d397b-2bd3-4522-8c41-99e4574b5a60/mini.svg)](https://insight.symfony.com/projects/d57d397b-2bd3-4522-8c41-99e4574b5a60)
 
 ## Introduction
 

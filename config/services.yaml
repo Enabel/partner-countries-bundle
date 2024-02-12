@@ -6,23 +6,14 @@ services:
         autoconfigure: true
         tags: [ 'controller.service_arguments' ]
 
-    Enabel\PartnerCountriesBundle\Command\PartnerCountries\InitCommand:
+    Enabel\PartnerCountriesBundle\Command\PartnerCountries\SyncCommand:
         autowire: true
         autoconfigure: true
         arguments:
             - "@doctrine.orm.entity_manager"
             - "@enabel_partner_countries.country_repository"
         tags:
-            - { name: 'console.command', command: 'enabel:partner-countries:init' }
-
-    Enabel\PartnerCountriesBundle\Command\PartnerCountries\UpdateCommand:
-        autowire: true
-        autoconfigure: true
-        arguments:
-            - "@doctrine.orm.entity_manager"
-            - "@enabel_partner_countries.country_repository"
-        tags:
-            - { name: 'console.command', command: 'enabel:partner-countries:update' }
+            - { name: 'console.command', command: 'enabel:partner-countries:sync' }
 
     enabel_partner_countries.country_repository:
         class: '%enabel_partner_countries.country_repository%'

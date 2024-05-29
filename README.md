@@ -2,6 +2,8 @@
 
 [![License](https://img.shields.io/badge/license-MIT-red.svg?style=flat-square)](LICENSE)
 [![SymfonyInsight](https://insight.symfony.com/projects/d57d397b-2bd3-4522-8c41-99e4574b5a60/mini.svg)](https://insight.symfony.com/projects/d57d397b-2bd3-4522-8c41-99e4574b5a60)
+[![codecov](https://codecov.io/gh/Enabel/partner-countries-bundle/graph/badge.svg?token=4juSa3PQmC)](https://codecov.io/gh/Enabel/partner-countries-bundle)
+[![CI](https://github.com/Enabel/partner-countries-bundle/actions/workflows/CI.yml/badge.svg)](https://github.com/Enabel/partner-countries-bundle/actions/workflows/CI.yml)
 
 ## Introduction
 

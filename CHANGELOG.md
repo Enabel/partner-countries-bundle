@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.5](https://github.com/enabel/partner-countries-bundle/tree/1.0.5) (2024-05-29)
+
+[Full Changelog](https://github.com/enabel/partner-countries-bundle/compare/1.0.4...1.0.5)
+
 ## [1.0.4](https://github.com/enabel/partner-countries-bundle/tree/1.0.4) (2024-02-12)
 
 [Full Changelog](https://github.com/enabel/partner-countries-bundle/compare/1.0.3...1.0.4)

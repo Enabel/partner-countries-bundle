@@ -25,7 +25,16 @@ abstract class CountryCrudController extends AbstractCrudController
             ->setPageTitle('detail', 'enabel_partner_countries.admin.title.country.detail')
             ->setSearchFields(['id', 'alpha2code'])
             ->setEntityPermission('ROLE_ADMIN_PARTNER_COUNTRIES')
+            ->showEntityActionsInlined()
         ;
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+        $actions = parent::configureActions($actions);
+        $actions->disable(Action::NEW, Action::DELETE);
+
+        return $actions;
     }
 
     /**

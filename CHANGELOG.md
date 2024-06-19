@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.6](https://github.com/enabel/partner-countries-bundle/tree/1.0.6) (2024-06-19)
+
+[Full Changelog](https://github.com/enabel/partner-countries-bundle/compare/1.0.5...1.0.6)
+
+**Merged pull requests:**
+
+- Update CountryCrudController.php [\#6](https://github.com/Enabel/partner-countries-bundle/pull/6) ([falcohb](https://github.com/falcohb))
+- Update CountryCrudController.php [\#5](https://github.com/Enabel/partner-countries-bundle/pull/5) ([falcohb](https://github.com/falcohb))
+
 ## [1.0.5](https://github.com/enabel/partner-countries-bundle/tree/1.0.5) (2024-05-29)
 
 [Full Changelog](https://github.com/enabel/partner-countries-bundle/compare/1.0.4...1.0.5)

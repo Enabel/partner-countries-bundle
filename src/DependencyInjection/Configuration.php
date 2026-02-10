@@ -17,7 +17,6 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder('enabel_partner_countries');
         $rootNode = $treeBuilder->getRootNode();
 
-        /** @phpstan-ignore-next-line */
         $rootNode
             ->addDefaultsIfNotSet()
             ->children()

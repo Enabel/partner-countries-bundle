@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.2', '8.4']
 
     steps:
       - name: Checkout repository
@@ -20,27 +23,30 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}
-          key: artifacts-${{ github.run_id }}-${{ github.run_number }}
+          key: artifacts-${{ github.run_id }}-${{ github.run_number }}-php${{ matrix.php-version }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: ${{ matrix.php-version }}
           tools: symfony, composer:v2
           extensions: gd,json,iconv,intl,mbstring,pdo,pdo_mysql,xml,zip,curl,apcu
 
       - name: Install Composer dependencies
         run: |
           composer validate --no-check-publish
-          composer install --prefer-dist --no-progress --optimize-autoloader --no-interaction
+          composer update --prefer-dist --no-progress --optimize-autoloader --no-interaction
 
       - name: Cleanup build
         run: |
-          rm -Rf .git/      
+          rm -Rf .git/
 
   security:
     needs: build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.2', '8.4']
 
     steps:
       - name: Checkout repository
@@ -50,12 +56,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}
-          key: artifacts-${{ github.run_id }}-${{ github.run_number }}
+          key: artifacts-${{ github.run_id }}-${{ github.run_number }}-php${{ matrix.php-version }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: ${{ matrix.php-version }}
           tools: symfony
           extensions: gd,json,iconv,intl,mbstring,pdo,pdo_mysql,xml,zip,curl,apcu
 
@@ -74,12 +80,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}
-          key: artifacts-${{ github.run_id }}-${{ github.run_number }}
+          key: artifacts-${{ github.run_id }}-${{ github.run_number }}-php8.4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: 8.4
           tools: symfony
           extensions: gd,json,iconv,intl,mbstring,pdo,pdo_mysql,xml,zip,curl,apcu
 
@@ -95,6 +101,9 @@ jobs:
   tests:
     needs: build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: ['8.2', '8.4']
 
     steps:
       - name: Checkout repository
@@ -104,12 +113,12 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}
-          key: artifacts-${{ github.run_id }}-${{ github.run_number }}
+          key: artifacts-${{ github.run_id }}-${{ github.run_number }}-php${{ matrix.php-version }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.2
+          php-version: ${{ matrix.php-version }}
           tools: symfony
           extensions: gd,json,iconv,intl,mbstring,pdo,pdo_mysql,xml,zip,curl,apcu
           coverage: xdebug
@@ -123,3 +132,45 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
           directory: coverage
+
+  integration:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - php-version: '8.2'
+            symfony-version: '7.4'
+          - php-version: '8.4'
+            symfony-version: '8.0'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: bundle
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: symfony, composer:v2
+          extensions: gd,json,iconv,intl,mbstring,pdo,pdo_sqlite,xml,zip,curl,apcu
+
+      - name: Create Symfony project
+        run: |
+          composer create-project symfony/skeleton:${{ matrix.symfony-version }}.* test-app --no-interaction
+          cd test-app
+          composer require webapp --no-interaction
+
+      - name: Install bundle from local path
+        run: |
+          cd test-app
+          composer config repositories.local '{"type": "path", "url": "../bundle", "options": {"symlink": true}}'
+          composer require enabel/partner-countries-bundle:@dev --no-interaction
+
+      - name: Verify bundle is registered
+        run: |
+          cd test-app
+          php bin/console debug:container --env=dev | grep -i "partner" || echo "Bundle services check"
+          php bin/console debug:config enabel_partner_countries --env=dev

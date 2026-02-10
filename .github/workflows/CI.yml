@@ -35,7 +35,7 @@ jobs:
       - name: Install Composer dependencies
         run: |
           composer validate --no-check-publish
-          composer install --prefer-dist --no-progress --optimize-autoloader --no-interaction
+          composer update --prefer-dist --no-progress --optimize-autoloader --no-interaction
 
       - name: Cleanup build
         run: |

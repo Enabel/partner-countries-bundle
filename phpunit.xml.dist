@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" bootstrap="tests/bootstrap.php" colors="true" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         cacheDirectory=".phpunit.cache"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerWarnings="true">
   <php>
     <env name="KERNEL_CLASS" value="Enabel\PartnerCountriesBundle\Tests\EnabelPartnerCountriesBundleTestingKernel" />
   </php>
-  <coverage>
-    <include>
-      <directory>./</directory>
-    </include>
-    <exclude>
-      <directory>./tests</directory>
-      <directory>./vendor</directory>
-      <file>./phpinsights.php</file>
-    </exclude>
-    <report>
-      <html outputDirectory="coverage/report" lowUpperBound="35" highLowerBound="60"/>
-      <text outputFile="php://stdout" showUncoveredFiles="true" showOnlySummary="true"/>
-      <clover outputFile="coverage/clover.xml"/>
-      <cobertura outputFile="coverage/cobertura.xml"/>
-      <crap4j outputFile="coverage/crap4j.xml" />
-    </report>
-  </coverage>
   <testsuites>
     <testsuite name="EnabelPartnerCountriesBundle test suite">
       <directory suffix="Test.php">./tests</directory>
     </testsuite>
   </testsuites>
+  <source>
+    <include>
+      <directory>./src</directory>
+    </include>
+  </source>
+  <coverage>
+    <report>
+      <html outputDirectory="coverage/report" lowUpperBound="35" highLowerBound="60"/>
+      <text outputFile="php://stdout" showUncoveredFiles="true" showOnlySummary="true"/>
+      <clover outputFile="coverage/clover.xml"/>
+      <cobertura outputFile="coverage/cobertura.xml"/>
+    </report>
+  </coverage>
 </phpunit>

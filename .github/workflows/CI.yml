@@ -132,3 +132,45 @@ jobs:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
           directory: coverage
+
+  integration:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - php-version: '8.2'
+            symfony-version: '7.2'
+          - php-version: '8.4'
+            symfony-version: '8.0'
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          path: bundle
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: symfony, composer:v2
+          extensions: gd,json,iconv,intl,mbstring,pdo,pdo_sqlite,xml,zip,curl,apcu
+
+      - name: Create Symfony project
+        run: |
+          composer create-project symfony/skeleton:${{ matrix.symfony-version }}.* test-app --no-interaction
+          cd test-app
+          composer require webapp --no-interaction
+
+      - name: Install bundle from local path
+        run: |
+          cd test-app
+          composer config repositories.local '{"type": "path", "url": "../bundle", "options": {"symlink": true}}'
+          composer require enabel/partner-countries-bundle:@dev --no-interaction
+
+      - name: Verify bundle is registered
+        run: |
+          cd test-app
+          php bin/console debug:container --env=dev | grep -i "partner" || echo "Bundle services check"
+          php bin/console debug:config enabel_partner_countries --env=dev

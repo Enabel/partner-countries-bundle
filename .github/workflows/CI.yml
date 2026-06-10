@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['8.2', '8.4']
+        php-version: ['8.4']
 
     steps:
       - name: Checkout repository
@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['8.2', '8.4']
+        php-version: ['8.4']
 
     steps:
       - name: Checkout repository
@@ -103,7 +103,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-version: ['8.2', '8.4']
+        php-version: ['8.4']
 
     steps:
       - name: Checkout repository
@@ -139,8 +139,6 @@ jobs:
     strategy:
       matrix:
         include:
-          - php-version: '8.2'
-            symfony-version: '7.4'
           - php-version: '8.4'
             symfony-version: '8.0'
 

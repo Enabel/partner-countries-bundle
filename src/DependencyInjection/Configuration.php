@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Enabel\PartnerCountriesBundle\DependencyInjection;
 
+use Enabel\PartnerCountriesBundle\Controller\Admin\CountryCrudController;
 use Enabel\PartnerCountriesBundle\Entity\Country;
 use Enabel\PartnerCountriesBundle\Repository\CountryRepository;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -29,6 +30,23 @@ class Configuration implements ConfigurationInterface
                     throw new InvalidConfigurationException(sprintf(
                         'Country class must be a valid class extending %s. "%s" given.',
                         Country::class,
+                        $value
+                    ));
+                }
+
+                return $value;
+            })
+            ->end()
+            ->end()
+            ->scalarNode('country_admin_controller')
+            ->defaultValue(CountryCrudController::class)
+            ->validate()
+            ->ifString()
+            ->then(static function ($value): string {
+                if (!class_exists($value) || !is_a($value, CountryCrudController::class, true)) {
+                    throw new InvalidConfigurationException(sprintf(
+                        'Country admin controller must be a valid class extending %s. "%s" given.',
+                        CountryCrudController::class,
                         $value
                     ));
                 }

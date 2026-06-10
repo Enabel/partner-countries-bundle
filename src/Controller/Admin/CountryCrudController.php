@@ -13,7 +13,11 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Enabel\PartnerCountriesBundle\Entity\Country;
 
+/**
+ * @extends AbstractCrudController<Country>
+ */
 abstract class CountryCrudController extends AbstractCrudController
 {
     public function configureCrud(Crud $crud): Crud

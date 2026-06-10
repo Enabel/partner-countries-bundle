@@ -43,6 +43,28 @@ class PartnerCountriesBundleExtensionTest extends TestCase
         $loader->load(['enabel_partner_countries' => $config], new ContainerBuilder());
     }
 
+    public function testThrowExceptionOnInvalidAdminControllerClass(): void
+    {
+        $this->expectException(InvalidConfigurationException::class);
+
+        $loader = new PartnerCountriesBundleExtension();
+        $config = $this->getValidConfig();
+        if (is_array($config)) {
+            $config['country_admin_controller'] = 'Acme\MyBundle\Controller\Admin\CountryCrudController';
+        }
+        $loader->load(['enabel_partner_countries' => $config], new ContainerBuilder());
+    }
+
+    public function testAdminControllerClassWithDefaults(): void
+    {
+        $this->createEmptyConfiguration();
+
+        $this->assertParameter(
+            'Enabel\PartnerCountriesBundle\Controller\Admin\CountryCrudController',
+            'enabel_partner_countries.country_admin_controller'
+        );
+    }
+
     public function testModelClassWithDefaults(): void
     {
         $this->createEmptyConfiguration();
@@ -97,7 +119,6 @@ EOF;
         $loader = new PartnerCountriesBundleExtension();
         $config = $this->getValidConfig();
         $loader->load(['enabel_partner_countries' => $config], $this->configuration);
-        $this->assertTrue($this->configuration instanceof ContainerBuilder);
     }
 
     /**

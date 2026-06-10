@@ -1,6 +1,30 @@
 # Changelog
 
-## [1.0.7](https://github.com/enabel/partner-countries-bundle/tree/1.0.7) (2024-11-09)
+## [v1.1.0](https://github.com/enabel/partner-countries-bundle/tree/v1.1.0) (2026-06-10)
+
+[Full Changelog](https://github.com/enabel/partner-countries-bundle/compare/v1.0.8...v1.1.0)
+
+**Breaking changes:**
+
+- Drop Symfony 7 support, require Symfony 8.0+ and PHP 8.4+
+- Drop EasyAdmin 4 support, require EasyAdmin 5
+- `CountryTrait::countryMenuEntry()` now links to the CRUD controller instead of the entity (`MenuItem::linkToCrud()` was removed in EasyAdmin 5): apps using the trait must set the new `country_admin_controller` option to their controller extending `CountryCrudController`
+
+**Implemented enhancements:**
+
+- New `country_admin_controller` configuration option
+- Explicit `symfony/console` requirement (the bundle ships a console command)
+- Upgrade dev tools: PHPStan 2, phpstan-phpunit 2, PHPUnit 11, PHP Insights 2.14
+
+## [v1.0.8](https://github.com/enabel/partner-countries-bundle/tree/v1.0.8) (2026-02-10)
+
+[Full Changelog](https://github.com/enabel/partner-countries-bundle/compare/1.0.7...v1.0.8)
+
+**Merged pull requests:**
+
+- Drop Symfony 6 support, add Symfony 7 & 8 compatibility [\#16](https://github.com/Enabel/partner-countries-bundle/pull/16) ([damienlagae](https://github.com/damienlagae))
+
+## [1.0.7](https://github.com/enabel/partner-countries-bundle/tree/1.0.7) (2024-11-07)
 
 [Full Changelog](https://github.com/enabel/partner-countries-bundle/compare/1.0.6...1.0.7)
 

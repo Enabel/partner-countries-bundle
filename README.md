@@ -18,7 +18,7 @@ You can check docs [here](docs/index.md)
 
 ## Versions & dependencies
 
-The current version of the bundle works with Symfony 6.0+.
+The current version of the bundle requires PHP 8.4+, Symfony 8.0+ and EasyAdmin 5.
 The project follows SemVer.
 
 You can check the [changelog](CHANGELOG.md).

@@ -83,6 +83,7 @@ Create a file `/config/packages/enabel_partner_countries.yaml` with this content
 enabel_partner_countries:
   country_class: 'App\Entity\Enabel\Country'
   country_repository: 'App\Repository\Enabel\CountryRepository'
+  country_admin_controller: 'App\Controller\Admin\Enabel\CountryCrudController'
 ```
 
 ### Step 5: Create entity & repository

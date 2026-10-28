@@ -24,4 +24,5 @@ nav:
   - Command: 'command.md'
   - EasyAdmin: 'easyadmin.md'
   - Twig: 'twig.md'
+  - 'Migrating away': 'migration.md'
   - 'Bug tracker': 'https://github.com/Enabel/partner-countries-bundle/issues'

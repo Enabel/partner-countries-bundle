@@ -5,6 +5,11 @@
 [![codecov](https://codecov.io/gh/Enabel/partner-countries-bundle/graph/badge.svg?token=4juSa3PQmC)](https://codecov.io/gh/Enabel/partner-countries-bundle)
 [![CI](https://github.com/Enabel/partner-countries-bundle/actions/workflows/CI.yml/badge.svg)](https://github.com/Enabel/partner-countries-bundle/actions/workflows/CI.yml)
 
+> [!WARNING]
+> **This bundle is deprecated and no longer maintained.** It only manages a list of countries, which is
+> simpler to keep in your application. Follow the [migration guide](docs/migration.md) to move it into
+> your project without touching the database schema.
+
 ## Introduction
 
 The bundle aims to help with partner countries management, including:

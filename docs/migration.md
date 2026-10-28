@@ -8,11 +8,25 @@ data migration is needed.
 The approach: copy the code into the `App\` namespace with the same class names, property names and
 mapping options, so Doctrine sees exactly the same table and columns.
 
+Do all the steps in a single branch: the application is only expected to boot again once the last
+step is done.
+
 > The snippets below assume the namespaces used in the installation guide
 > (`App\Entity\Enabel\Country`, `App\Repository\Enabel\CountryRepository`,
 > `App\Controller\Admin\Enabel\CountryCrudController`). Adapt them if your project differs.
 
-## Step 1: Inline the entity
+## Step 1: Unregister the bundle
+
+Start by switching the bundle off, while keeping the package installed so your classes that extend it
+still load during the migration:
+
+1. Delete `config/packages/enabel_partner_countries.yaml`: its options require classes extending the
+   bundle ones, which stops being true in the next steps.
+2. Remove the `enabel_partner_countries` import from `config/routes.yaml` (or `config/routes/`).
+3. Remove `Enabel\PartnerCountriesBundle\EnabelPartnerCountriesBundle` from `config/bundles.php`. This
+   also frees the `enabel:partner-countries:sync` command name for your own command.
+
+## Step 2: Inline the entity
 
 Replace your `src/Entity/Enabel/Country.php` (which extended the bundle one) with a standalone
 entity. Keep the property names and the `options` untouched: they define the column names and
@@ -61,6 +75,13 @@ class Country implements \Stringable
         return $this->id;
     }
 
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getAlpha2code(): string
     {
         return $this->alpha2code;
@@ -100,7 +121,7 @@ class Country implements \Stringable
 Keep the public API identical for now (getters and setters): the rest of your code keeps working.
 Modernise it (property hooks, readonly…) in a separate change once the bundle is gone.
 
-## Step 2: Inline the repository
+## Step 3: Inline the repository
 
 ```php
 <?php
@@ -142,7 +163,7 @@ class CountryRepository extends ServiceEntityRepository
 The bundle also had `add()` and `remove()` helpers. If your code calls them, either keep them or
 replace the calls with `$entityManager->persist()` / `remove()` / `flush()`.
 
-## Step 3: Copy the sync command
+## Step 4: Copy the sync command
 
 Only needed if you run `enabel:partner-countries:sync` (at deploy time, in a cron…). Keeping the same
 command name means you don't have to touch your deploy scripts.
@@ -159,7 +180,6 @@ use App\Repository\Enabel\CountryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Intl\Countries;
 
@@ -200,7 +220,7 @@ final readonly class SyncPartnerCountriesCommand
 > constant (and make `isPartner` read-only in the admin) or the database (and stop resetting the flag
 > in the command).
 
-## Step 4: Inline the EasyAdmin CRUD controller
+## Step 5: Inline the EasyAdmin CRUD controller
 
 Your `CountryCrudController` extended the bundle's abstract one. Merge the parent configuration into
 it:
@@ -278,14 +298,14 @@ In your dashboard, drop the `CountryTrait` and link the controller directly:
 +        yield MenuItem::linkTo(CountryCrudController::class, 'enabel_partner_countries.admin.menu.country', 'fa fa-earth-africa');
 ```
 
-## Step 5: Copy the translations
+## Step 6: Copy the translations
 
 Copy the keys you use from the bundle's
 [`translations/messages.en.yaml`](https://github.com/Enabel/partner-countries-bundle/blob/main/translations/messages.en.yaml)
 and [`messages.fr.yaml`](https://github.com/Enabel/partner-countries-bundle/blob/main/translations/messages.fr.yaml)
 into your `translations/messages.*.yaml`, or replace the keys in the controller with your own labels.
 
-## Step 6: Copy the Twig filters (if used)
+## Step 7: Copy the Twig filters (if used)
 
 Search your templates for `country_icon`. If you use the filters, add this extension (the flags come
 from [flag-icons](https://flagicons.lipis.dev/), which your project already loads):
@@ -335,21 +355,19 @@ final class CountryExtension
 `#[AsTwigFilter]` requires Twig 3.21+ and Symfony 7.3+. With autoconfiguration on (the default), no
 service configuration is needed.
 
-## Step 7: Remove the bundle
+## Step 8: Remove the package
 
-1. Delete `config/packages/enabel_partner_countries.yaml`.
-2. Remove the `enabel_partner_countries` import from `config/routes.yaml` (or `config/routes/`).
-3. Remove the bundle from `config/bundles.php` (Flex does it for you on `composer remove`).
-4. Uninstall it:
+1. Uninstall it:
 
    ```bash
    composer remove enabel/partner-countries-bundle
    ```
 
-5. Search for leftovers: `grep -rn "PartnerCountriesBundle\|enabel_partner_countries" src config templates`.
-   The Twig global `enabel_partner_countries` disappears with the bundle.
+2. Search for leftovers: `grep -rn "PartnerCountriesBundle\|enabel_partner_countries" src config templates`.
+   Only the translation keys (`enabel_partner_countries.admin.*`) should remain. The Twig global
+   `enabel_partner_countries` went away with the bundle in Step 1.
 
-## Step 8: Check the schema did not change
+## Step 9: Check the schema did not change
 
 ```bash
 bin/console doctrine:schema:validate

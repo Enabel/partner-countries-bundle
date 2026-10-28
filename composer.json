@@ -1,6 +1,7 @@
 {
     "name": "enabel/partner-countries-bundle",
     "description": "Symfony partner countries management",
+    "abandoned": true,
     "license": "MIT",
     "type": "symfony-bundle",
     "authors": [

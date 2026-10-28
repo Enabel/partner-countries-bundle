@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+**Deprecated:**
+
+- The bundle is deprecated and no longer maintained. See the [migration guide](docs/migration.md) to move the country management into your application.
+
 ## [v1.1.0](https://github.com/enabel/partner-countries-bundle/tree/v1.1.0) (2026-06-10)
 
 [Full Changelog](https://github.com/enabel/partner-countries-bundle/compare/v1.0.8...v1.1.0)
